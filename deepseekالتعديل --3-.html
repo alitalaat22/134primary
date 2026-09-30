@@ -1,0 +1,2289 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الخطة التشغيلية - الابتدائية الرابعة والثلاثون بعد المائة</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --primary: #0d4d5c;
+  --primary-light: #1a6b7f;
+  --primary-dark: #082f38;
+  --accent: #7cb342;
+  --accent-light: #9ccc65;
+  --gold: #f4b942;
+  --sky: #7fb3d3;
+  --bg: #eef5f9;
+  --card: #ffffff;
+  --text: #1a2a33;
+  --text-light: #5a6b73;
+  --border: #d4e4ec;
+  --shadow: 0 4px 20px rgba(13,77,92,0.08);
+  --shadow-hover: 0 8px 30px rgba(13,77,92,0.15);
+  --sidebar-w: 230px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Tajawal', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ===== SIDEBAR NAVIGATION (RIGHT) ===== */
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  background: linear-gradient(180deg, var(--primary-dark) 0%, var(--primary) 100%);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  box-shadow: -4px 0 25px rgba(0,0,0,0.15);
+  overflow-y: auto;
+  transition: transform 0.3s ease;
+}
+
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+.sidebar::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+
+.sidebar-brand {
+  padding: 16px 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(0,0,0,0.15);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.sidebar-logo {
+  width: 42px;
+  height: 42px;
+  background: #fff;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.sidebar-logo svg { width: 100%; height: 100%; }
+
+.sidebar-brand-text h3 {
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 2px;
+}
+
+.sidebar-brand-text p {
+  font-size: 0.65rem;
+  opacity: 0.75;
+  font-weight: 300;
+}
+
+.sidebar-nav {
+  padding: 10px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+}
+
+.nav-label {
+  font-size: 0.63rem;
+  opacity: 0.5;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 10px 10px 4px;
+  font-weight: 600;
+}
+
+.nav-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.75);
+  text-align: right;
+  padding: 9px 11px;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-btn .ico {
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  background: rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  transition: all 0.25s;
+}
+
+.nav-btn:hover {
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+}
+
+.nav-btn.active {
+  background: linear-gradient(90deg, rgba(124,179,66,0.2), rgba(124,179,66,0.05));
+  color: #fff;
+  font-weight: 700;
+}
+
+.nav-btn.active::before {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--accent);
+  border-radius: 0 3px 3px 0;
+}
+
+.nav-btn.active .ico {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(124,179,66,0.4);
+}
+
+.sidebar-footer {
+  padding: 12px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  font-size: 0.65rem;
+  opacity: 0.6;
+  text-align: center;
+}
+
+.mobile-toggle {
+  display: none;
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  width: 46px;
+  height: 46px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 11px;
+  font-size: 1.3rem;
+  z-index: 1100;
+  cursor: pointer;
+  box-shadow: var(--shadow-hover);
+}
+
+/* ===== MAIN CONTENT ===== */
+.main-content {
+  margin-right: var(--sidebar-w);
+  padding: 20px 25px 60px;
+  min-height: 100vh;
+  transition: padding 0.3s ease;
+}
+
+/* ===== HERO HEADER ===== */
+.hero {
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 60%, var(--primary-light) 100%);
+  border-radius: 20px;
+  padding: 28px 32px;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 22px;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -10%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(124,179,66,0.2), transparent 70%);
+  border-radius: 50%;
+  animation: float 8s ease-in-out infinite;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -40%;
+  right: 20%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(127,179,211,0.2), transparent 70%);
+  border-radius: 50%;
+  animation: float 10s ease-in-out infinite reverse;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-25px); }
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* Hero compact state (on scroll) */
+.hero.compact {
+  padding: 12px 22px;
+  border-radius: 14px;
+  margin-bottom: 15px;
+}
+
+.hero.compact .hero-logo-box {
+  width: 45px !important;
+  height: 45px !important;
+}
+
+.hero.compact .hero-logo-box .logo-placeholder-text {
+  font-size: 0.55rem;
+}
+
+.hero.compact .hero-title h1 {
+  font-size: 1rem !important;
+}
+
+.hero.compact .hero-title p {
+  font-size: 0.75rem;
+  display: none;
+}
+
+.hero.compact .hero-badge {
+  padding: 6px 14px;
+  font-size: 0.75rem;
+}
+
+.hero.compact::before,
+.hero.compact::after {
+  opacity: 0.4;
+}
+
+.hero-brand {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+/* Logo Placeholder Box */
+.hero-logo-box {
+  width: 85px;
+  height: 85px;
+  background: #fff;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  flex-shrink: 0;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+  position: relative;
+  overflow: hidden;
+  border: 3px dashed rgba(124,179,66,0.5);
+  transition: all 0.35s ease;
+}
+
+.hero-logo-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+.logo-placeholder-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+}
+
+.logo-placeholder-icon {
+  font-size: 1.6rem;
+  opacity: 0.5;
+}
+
+.logo-placeholder-text {
+  font-size: 0.62rem;
+  color: #5a6b73;
+  font-weight: 600;
+  line-height: 1.2;
+  transition: all 0.35s ease;
+}
+
+.hero-title h1 {
+  font-size: 1.5rem;
+  font-weight: 900;
+  margin-bottom: 4px;
+  transition: all 0.35s ease;
+}
+
+.hero-title p {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  transition: all 0.35s ease;
+}
+
+.hero-badge {
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 9px 18px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-weight: 500;
+  font-size: 0.85rem;
+  transition: all 0.35s ease;
+}
+
+.hero-badge .dot {
+  width: 9px;
+  height: 9px;
+  background: var(--accent-light);
+  border-radius: 50%;
+  animation: blink 2s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* ===== QUICK STATS (ONLY in overview) ===== */
+.quick-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.qs-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s;
+  border-right: 4px solid var(--accent);
+  position: relative;
+  overflow: hidden;
+}
+
+.qs-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 70px;
+  height: 70px;
+  background: radial-gradient(circle, rgba(124,179,66,0.08), transparent 70%);
+  border-radius: 50%;
+}
+
+.qs-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+
+.qs-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 11px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.qs-icon.green { background: linear-gradient(135deg, #2e7d32, #66bb6a); }
+.qs-icon.gold { background: linear-gradient(135deg, #f57f17, #f4b942); }
+.qs-icon.sky { background: linear-gradient(135deg, #1565c0, #42a5f5); }
+.qs-icon.purple { background: linear-gradient(135deg, #6a1b9a, #ab47bc); }
+
+.qs-data .num {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--primary);
+  line-height: 1.1;
+}
+
+.qs-data .lbl {
+  font-size: 0.72rem;
+  color: var(--text-light);
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+/* ===== SECTIONS ===== */
+.section { display: none; animation: fadeIn 0.4s ease; }
+.section.active { display: block; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 20px;
+  padding-bottom: 13px;
+  border-bottom: 3px solid var(--accent);
+  flex-wrap: wrap;
+}
+
+.section-title .icon-badge {
+  width: 46px;
+  height: 46px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  color: #fff;
+  box-shadow: var(--shadow);
+}
+
+.section-title h2 {
+  font-size: 1.3rem;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.section-title .subtitle {
+  color: var(--text-light);
+  font-size: 0.82rem;
+  margin-top: 1px;
+}
+
+/* ===== CARDS ===== */
+.card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  transition: all 0.3s;
+  margin-bottom: 20px;
+}
+
+.card-accent { border-top: 4px solid var(--accent); }
+
+.card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+/* ===== GRID ===== */
+.grid { display: grid; gap: 18px; }
+.grid-2 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.grid-3 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.grid-4 { grid-template-columns: repeat(auto-fit, minmax(165px, 1fr)); }
+
+/* ===== CHART CARDS ===== */
+.chart-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  transition: all 0.3s;
+}
+
+.chart-card:hover { box-shadow: var(--shadow-hover); }
+
+.chart-card h4 {
+  font-size: 0.95rem;
+  color: var(--primary);
+  margin-bottom: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.chart-container {
+  position: relative;
+  height: 260px;
+  width: 100%;
+}
+
+.chart-container.tall { height: 320px; }
+
+/* ===== VISION/MISSION ===== */
+.vision-card, .mission-card {
+  border-radius: 16px;
+  padding: 24px;
+  color: #fff;
+  min-height: 180px;
+  position: relative;
+  overflow: hidden;
+}
+
+.vision-card {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+}
+
+.mission-card {
+  background: linear-gradient(135deg, #1b5e20, #4caf50);
+}
+
+.vision-card::before, .mission-card::before {
+  content: '';
+  position: absolute;
+  top: -30%;
+  left: -10%;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(255,255,255,0.1), transparent 70%);
+  border-radius: 50%;
+}
+
+.vision-card h3, .mission-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  position: relative;
+  z-index: 1;
+}
+
+.vision-card h3::before { content: '👁️'; font-size: 1.3rem; }
+.mission-card h3::before { content: '🎯'; font-size: 1.3rem; }
+
+.vision-card p, .mission-card p {
+  font-size: 0.9rem;
+  line-height: 1.85;
+  opacity: 0.95;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== SWOT ===== */
+.swot-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.swot-item {
+  border-radius: 16px;
+  padding: 20px;
+  color: #fff;
+  min-height: 180px;
+  transition: all 0.3s;
+}
+
+.swot-item:hover { transform: translateY(-4px) scale(1.02); }
+
+.swot-item h3 {
+  font-size: 1rem;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-weight: 700;
+}
+
+.swot-item h3 .emoji { font-size: 1.3rem; }
+
+.swot-item ul {
+  list-style: none;
+  font-size: 0.83rem;
+  line-height: 1.7;
+}
+
+.swot-item ul li {
+  padding: 4px 0;
+  padding-right: 16px;
+  position: relative;
+}
+
+.swot-item ul li::before {
+  content: '◆';
+  position: absolute;
+  right: 0;
+  opacity: 0.7;
+  font-size: 0.65rem;
+  top: 7px;
+}
+
+.swot-strengths { background: linear-gradient(135deg, #2e7d32, #66bb6a); }
+.swot-weaknesses { background: linear-gradient(135deg, #c62828, #ef5350); }
+.swot-opportunities { background: linear-gradient(135deg, #1565c0, #42a5f5); }
+.swot-threats { background: linear-gradient(135deg, #6a1b9a, #ab47bc); }
+
+/* ===== PROGRESS ===== */
+.progress-item {
+  margin-bottom: 14px;
+  padding: 12px;
+  background: #f8fbfd;
+  border-radius: 11px;
+  border: 1px solid var(--border);
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 7px;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.progress-label .name {
+  font-weight: 600;
+  color: var(--primary);
+  font-size: 0.83rem;
+}
+
+.progress-label .values {
+  font-size: 0.75rem;
+  color: var(--text-light);
+  display: flex;
+  gap: 7px;
+}
+
+.progress-label .values .current { color: var(--gold); font-weight: 700; }
+.progress-label .values .target { color: var(--accent); font-weight: 700; }
+
+.progress-bar-bg {
+  height: 9px;
+  background: #e8f0f4;
+  border-radius: 9px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--sky), var(--primary));
+  border-radius: 9px;
+  transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  width: 0;
+}
+
+.progress-bar-fill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  animation: shimmer 2.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.progress-target-marker {
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  width: 3px;
+  background: var(--accent);
+  border-radius: 3px;
+  z-index: 2;
+}
+
+/* ===== TABLES ===== */
+.table-wrap {
+  overflow-x: auto;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  background: #fff;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  min-width: 600px;
+}
+
+thead {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: #fff;
+}
+
+thead th {
+  padding: 11px 9px;
+  text-align: right;
+  font-weight: 600;
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s;
+}
+
+tbody tr:hover { background: rgba(127,179,211,0.08); }
+tbody tr:nth-child(even) { background: rgba(240,247,250,0.6); }
+
+tbody td {
+  padding: 10px 9px;
+  color: var(--text);
+  vertical-align: top;
+}
+
+/* ===== BADGES ===== */
+.badge {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge-green { background: #e8f5e9; color: #2e7d32; }
+.badge-blue { background: #e3f2fd; color: #1565c0; }
+.badge-gold { background: #fff8e1; color: #f57f17; }
+.badge-red { background: #ffebee; color: #c62828; }
+.badge-purple { background: #f3e5f5; color: #6a1b9a; }
+
+/* ===== TIMELINE ===== */
+.timeline { position: relative; padding-right: 32px; }
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  right: 13px;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--primary), var(--accent));
+  border-radius: 3px;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 14px;
+  padding: 12px 16px;
+  background: #fff;
+  border-radius: 11px;
+  box-shadow: var(--shadow);
+  transition: all 0.3s;
+  border: 1px solid var(--border);
+}
+
+.timeline-item:hover { transform: translateX(-5px); box-shadow: var(--shadow-hover); border-color: var(--sky); }
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  right: -26px;
+  top: 18px;
+  width: 12px;
+  height: 12px;
+  background: #fff;
+  border: 3px solid var(--accent);
+  border-radius: 50%;
+  z-index: 2;
+  box-shadow: 0 0 0 4px rgba(124,179,66,0.15);
+}
+
+.timeline-item h4 {
+  color: var(--primary);
+  margin-bottom: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* ===== PROGRAM CARDS ===== */
+.program-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 17px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  position: relative;
+  overflow: hidden;
+}
+
+.program-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--accent), var(--sky));
+}
+
+.program-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+
+.program-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+
+.program-name {
+  font-weight: 700;
+  color: var(--primary);
+  font-size: 0.87rem;
+  flex: 1;
+  min-width: 130px;
+}
+
+.program-desc {
+  font-size: 0.79rem;
+  color: var(--text-light);
+  line-height: 1.65;
+}
+
+.program-meta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 0.72rem;
+  color: var(--text-light);
+  padding-top: 9px;
+  border-top: 1px dashed var(--border);
+}
+
+/* ===== SUB TABS ===== */
+.sub-tabs {
+  display: flex;
+  gap: 7px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+  background: #fff;
+  padding: 5px;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+.sub-tab {
+  padding: 8px 14px;
+  border: none;
+  background: transparent;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-light);
+  cursor: pointer;
+  border-radius: 9px;
+  transition: all 0.3s;
+}
+
+.sub-tab.active {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(13,77,92,0.2);
+}
+
+.sub-content { display: none; animation: fadeIn 0.4s; }
+.sub-content.active { display: block; }
+
+/* ===== INFO BOX ===== */
+.info-box {
+  background: linear-gradient(135deg, #e3f2fd, #f0f7fa);
+  border-right: 4px solid var(--primary);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+}
+
+.info-box p { color: var(--text); font-size: 0.87rem; line-height: 1.8; }
+
+.info-box.green { background: linear-gradient(135deg, #e8f5e9, #f1f8e9); border-right-color: var(--accent); }
+.info-box.gold { background: linear-gradient(135deg, #fff8e1, #fffde7); border-right-color: var(--gold); }
+
+/* ===== ORG CHART ===== */
+.org-chart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 13px;
+  padding: 18px;
+}
+
+.org-top {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: #fff;
+  padding: 12px 26px;
+  border-radius: 12px;
+  font-weight: 700;
+  box-shadow: var(--shadow-hover);
+  font-size: 0.92rem;
+}
+
+.org-connector {
+  width: 3px;
+  height: 18px;
+  background: var(--sky);
+}
+
+.org-row {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+.org-box {
+  background: #fff;
+  border: 2px solid var(--sky);
+  border-radius: 11px;
+  padding: 9px 16px;
+  font-weight: 600;
+  color: var(--primary);
+  box-shadow: var(--shadow);
+  text-align: center;
+  font-size: 0.83rem;
+  transition: all 0.3s;
+}
+
+.org-box:hover { transform: scale(1.05); background: var(--primary); color: #fff; }
+.org-box.leader { background: var(--gold); color: #fff; border-color: var(--gold); }
+.org-box.leader:hover { background: #d97706; }
+
+.org-sub {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 9px;
+}
+
+.org-chip {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  color: var(--text-light);
+  transition: all 0.2s;
+}
+
+.org-chip:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+/* ===== OCCASIONS ===== */
+.occasion-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 10px 13px;
+  background: #f8fbfd;
+  border-radius: 11px;
+  border-right: 4px solid var(--accent);
+  transition: all 0.25s;
+  margin-bottom: 7px;
+}
+
+.occasion-item:hover { transform: translateX(-4px); border-right-color: var(--gold); background: #fff; }
+
+.occasion-date {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: #fff;
+  padding: 4px 9px;
+  border-radius: 7px;
+  font-weight: 700;
+  font-size: 0.7rem;
+  min-width: 72px;
+  text-align: center;
+}
+
+.occasion-name {
+  font-weight: 500;
+  color: var(--text);
+  font-size: 0.81rem;
+}
+
+/* ===== KPI METRICS ===== */
+.kpi-metric {
+  background: linear-gradient(135deg, #f8fbfd, #fff);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  border: 1px solid var(--border);
+  transition: all 0.3s;
+}
+
+.kpi-metric:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+
+.kpi-metric .kpi-val {
+  font-size: 1.6rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+}
+
+.kpi-metric .kpi-lbl {
+  font-size: 0.75rem;
+  color: var(--text-light);
+  margin-top: 3px;
+  font-weight: 500;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  text-align: center;
+  padding: 22px;
+  color: var(--text-light);
+  font-size: 0.8rem;
+  border-top: 1px dashed var(--border);
+  margin-top: 25px;
+}
+
+.footer strong { color: var(--primary); }
+
+/* ===== SCROLL TOP ===== */
+.scroll-top {
+  position: fixed;
+  bottom: 22px;
+  left: 22px;
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-hover);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+  z-index: 999;
+}
+
+.scroll-top.show { opacity: 1; visibility: visible; }
+.scroll-top:hover { transform: translateY(-4px); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1200px) {
+  :root { --sidebar-w: 215px; }
+  .main-content { padding: 18px 20px 60px; }
+  .hero-title h1 { font-size: 1.3rem; }
+  .hero-logo-box { width: 75px; height: 75px; }
+}
+
+@media (max-width: 1024px) {
+  :root { --sidebar-w: 200px; }
+  .nav-btn { font-size: 0.78rem; padding: 8px 9px; }
+  .hero-title h1 { font-size: 1.15rem; }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(100%);
+    width: 250px;
+  }
+  .sidebar.open { transform: translateX(0); }
+  .main-content { margin-right: 0; padding: 70px 15px 40px; }
+  .mobile-toggle { display: flex; align-items: center; justify-content: center; }
+  .hero { padding: 22px 18px; }
+  .hero-title h1 { font-size: 1.05rem; }
+  .hero-logo-box { width: 65px; height: 65px; }
+  .swot-grid { grid-template-columns: 1fr; }
+  .section-title h2 { font-size: 1.1rem; }
+  .chart-container { height: 230px; }
+  .chart-container.tall { height: 280px; }
+}
+
+@media (max-width: 480px) {
+  .card { padding: 16px; }
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .hero-brand { gap: 12px; }
+}
+
+/* Overlay for mobile */
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 999;
+  backdrop-filter: blur(3px);
+}
+
+.overlay.show { display: block; }
+</style>
+</head>
+<body>
+
+<!-- Mobile Toggle -->
+<button class="mobile-toggle" onclick="toggleSidebar()">☰</button>
+<div class="overlay" onclick="toggleSidebar()"></div>
+
+<!-- ===== SIDEBAR NAVIGATION ===== -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="sidebar-logo">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#0d4d5c"/>
+            <stop offset="100%" style="stop-color:#1a6b7f"/>
+          </linearGradient>
+        </defs>
+        <rect x="3" y="3" width="94" height="94" rx="16" fill="url(#lg)"/>
+        <g fill="#fff">
+          <circle cx="25" cy="22" r="3"/>
+          <circle cx="40" cy="20" r="3"/>
+          <circle cx="55" cy="20" r="3"/>
+          <circle cx="70" cy="22" r="3"/>
+          <circle cx="30" cy="35" r="3"/>
+          <circle cx="45" cy="32" r="3"/>
+          <circle cx="60" cy="32" r="3"/>
+          <circle cx="75" cy="35" r="3"/>
+          <circle cx="25" cy="50" r="3"/>
+          <circle cx="40" cy="48" r="3"/>
+          <circle cx="55" cy="48" r="3"/>
+          <circle cx="70" cy="50" r="3"/>
+          <circle cx="50" cy="66" r="4"/>
+        </g>
+        <text x="50" y="86" text-anchor="middle" fill="#7cb342" font-size="10" font-weight="bold" font-family="Arial">1447هـ</text>
+      </svg>
+    </div>
+    <div class="sidebar-brand-text">
+      <h3>الابتدائية الرابعة والثلاثون بعد المائة</h3>
+      <p>مكة المكرمة</p>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-label">الأقسام الرئيسية</div>
+    <button class="nav-btn active" data-section="overview"><span class="ico">🏠</span> الرئيسية</button>
+    <button class="nav-btn" data-section="vision"><span class="ico">🌟</span> الرؤية والرسالة</button>
+    <button class="nav-btn" data-section="goals"><span class="ico">🎯</span> الأهداف</button>
+    <button class="nav-btn" data-section="data"><span class="ico">📊</span> بيانات المدرسة</button>
+    <button class="nav-btn" data-section="team"><span class="ico">👥</span> لجنة التميز</button>
+    <div class="nav-label">التحليل والتقييم</div>
+    <button class="nav-btn" data-section="swot"><span class="ico">🔍</span> تحليل SWOT</button>
+    <button class="nav-btn" data-section="kpis"><span class="ico">📈</span> مؤشرات الأداء</button>
+    <div class="nav-label">البرامج والمتابعة</div>
+    <button class="nav-btn" data-section="programs"><span class="ico">🚀</span> البرامج والمبادرات</button>
+    <button class="nav-btn" data-section="followup"><span class="ico">✅</span> متابعة التنفيذ</button>
+    <div class="nav-label">معلومات إضافية</div>
+    <button class="nav-btn" data-section="calendar"><span class="ico">📅</span> التقويم والمناسبات</button>
+    <button class="nav-btn" data-section="structure"><span class="ico">🏛️</span> الهيكل التنظيمي</button>
+    <button class="nav-btn" data-section="approval"><span class="ico">✍️</span> اعتماد الخطة</button>
+  </nav>
+
+  <div class="sidebar-footer">
+    الخطة التشغيلية 1447 هـ
+  </div>
+</aside>
+
+<!-- ===== MAIN CONTENT ===== -->
+<main class="main-content">
+
+<!-- HERO (with logo placeholder + compact on scroll) -->
+<div class="hero" id="hero">
+  <div class="hero-inner">
+    <div class="hero-brand">
+      <!-- ===== LOGO PLACEHOLDER (ضع الصورة هنا) ===== -->
+      <div class="hero-logo-box" id="logoBox">
+        <!-- 
+        استبدل السطر التالي بصورة اللوجو الخاصة بالمدرسة:
+        <img src="logo.png" alt="شعار المدرسة">
+        -->
+        <div class="logo-placeholder-content">
+          <div class="logo-placeholder-icon">🏫</div>
+          <div class="logo-placeholder-text">شعار<br>المدرسة</div>
+        </div>
+      </div>
+
+      <div class="hero-title">
+        <h1>الخطة التشغيلية التفاعلية</h1>
+        <p>الإدارة العامة للتعليم بمنطقة مكة المكرمة - العام الدراسي 1447 هـ</p>
+      </div>
+    </div>
+
+    <div class="hero-badge">
+      <span class="dot"></span>
+      عرض تفاعلي شامل
+    </div>
+  </div>
+</div>
+
+<!-- ===== 1. OVERVIEW ===== -->
+<section id="overview" class="section active">
+
+  <!-- Quick Stats (ONLY in Overview Section) -->
+  <div class="quick-stats">
+    <div class="qs-card">
+      <div class="qs-icon">👩‍🎓</div>
+      <div class="qs-data"><div class="num" data-count="509">0</div><div class="lbl">إجمالي الطالبات</div></div>
+    </div>
+    <div class="qs-card">
+      <div class="qs-icon green">🏫</div>
+      <div class="qs-data"><div class="num" data-count="17">0</div><div class="lbl">عدد الفصول</div></div>
+    </div>
+    <div class="qs-card">
+      <div class="qs-icon gold">🚀</div>
+      <div class="qs-data"><div class="num" data-count="22">0</div><div class="lbl">برنامج ومبادرة</div></div>
+    </div>
+    <div class="qs-card">
+      <div class="qs-icon sky">👥</div>
+      <div class="qs-data"><div class="num" data-count="11">0</div><div class="lbl">أعضاء لجنة التميز</div></div>
+    </div>
+    <div class="qs-card">
+      <div class="qs-icon purple">🎯</div>
+      <div class="qs-data"><div class="num" data-count="10">0</div><div class="lbl">أهداف استراتيجية</div></div>
+    </div>
+  </div>
+
+  <div class="section-title">
+    <div class="icon-badge">📋</div>
+    <div>
+      <h2>مقدمة الخطة التشغيلية</h2>
+      <div class="subtitle">نظرة عامة على الخطة ومصادرها ومستهدفيها</div>
+    </div>
+  </div>
+
+  <!-- Charts Row -->
+  <div class="grid grid-2" style="margin-bottom:20px;">
+    <div class="chart-card">
+      <h4>📊 توزيع الطالبات على الصفوف</h4>
+      <div class="chart-container"><canvas id="chartStudents"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h4>🏫 المرافق والموارد المدرسية</h4>
+      <div class="chart-container"><canvas id="chartFacilities"></canvas></div>
+    </div>
+  </div>
+
+  <div class="card card-accent">
+    <div class="card-title">📝 مقدمة الخطة</div>
+    <p style="line-height:2;color:var(--text-light);font-size:0.9rem;">
+      يعتمد نجاح المدرسة على نجاح المسؤول عنها ومدى كفاءته وقدرته على التخطيط، وقد أصبح التخطيط ضرورياً وهاماً لكل مجالات الحياة، وهو أكثر أهمية في المجال التربوي. ولكي يكون العاملون بالمدرسة قادرين على بناء خطط العمل المدرسي فلا بد أن يكونوا ملمين ومتفهمين لمعنى التخطيط وأهميته وفوائده، وكيفية بناء الخطة وتنفيذها ومتابعتها وتطويرها.
+    </p>
+    <p style="line-height:2;color:var(--text-light);font-size:0.9rem;margin-top:10px;">
+      ولا بد لهم أن يتيقنوا أن التخطيط عملية أو نشاط مستمر ودائم التجدد، يتضمن عملية وضع الأهداف وتحديدها وتنفيذها واختيار وسائل وطرق تقويم العمل ومتابعته وتطويره.
+    </p>
+    <div style="margin-top:16px;padding-top:12px;border-top:1px dashed var(--border);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+      <div><strong style="color:var(--primary);">مديرة المدرسة:</strong> <span style="color:var(--accent);font-weight:700;">ثريا مدني</span></div>
+      <div><strong style="color:var(--primary);">العام الدراسي:</strong> 1447 هـ</div>
+    </div>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <div class="card-title">📚 مصادر الخطة التشغيلية</div>
+      <div class="timeline">
+        <div class="timeline-item"><h4>رؤية ورسالة وزارة التعليم بالمملكة</h4></div>
+        <div class="timeline-item"><h4>رؤية ورسالة الإدارة العامة للتعليم بالمنطقة</h4></div>
+        <div class="timeline-item"><h4>الأهداف الاستراتيجية لوزارة التعليم</h4></div>
+        <div class="timeline-item"><h4>قواعد السلوك والمواظبة 1445 هـ</h4></div>
+        <div class="timeline-item"><h4>سياسة التعليم بالمملكة العربية السعودية</h4></div>
+        <div class="timeline-item"><h4>دليل الخطط الدراسية للعام 1447 هـ</h4></div>
+        <div class="timeline-item"><h4>الدليل التنظيمي والإجرائي لمدارس التعليم العام</h4></div>
+        <div class="timeline-item"><h4>الخطة الوزارية للوائح والأنشطة والمبادرات</h4></div>
+        <div class="timeline-item"><h4>نتائج الطلاب للعام الدراسي السابق</h4></div>
+        <div class="timeline-item"><h4>نتائج المدرسة في التقويم الذاتي والخارجي</h4></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card" style="margin-bottom:18px;">
+        <div class="card-title">🎯 المستهدفون بالخطة</div>
+        <div class="grid grid-2">
+          <div class="kpi-metric"><div class="kpi-val">👩‍🎓</div><div class="kpi-lbl">الطلاب</div></div>
+          <div class="kpi-metric"><div class="kpi-val">👩‍🏫</div><div class="kpi-lbl">المعلمون</div></div>
+          <div class="kpi-metric"><div class="kpi-val">👨‍👩‍👧</div><div class="kpi-lbl">أولياء الأمور</div></div>
+          <div class="kpi-metric"><div class="kpi-val">🏫</div><div class="kpi-lbl">البيئة المدرسية</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🛠️ أساليب الخطة التشغيلية</div>
+        <div style="display:flex;flex-wrap:wrap;gap:7px;">
+          <span class="badge badge-blue">ورش تدريبية</span>
+          <span class="badge badge-green">تبادل زيارات</span>
+          <span class="badge badge-gold">دروس تطبيقية</span>
+          <span class="badge badge-blue">زيارات</span>
+          <span class="badge badge-green">معاوض</span>
+          <span class="badge badge-gold">محاضرات</span>
+          <span class="badge badge-blue">نشرات</span>
+          <span class="badge badge-green">لقاءات عامة</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💼 الإمكانات المادية والبشرية والمالية</div>
+    <div class="grid grid-3">
+      <div class="program-card">
+        <div class="program-header"><span class="program-name">👥 الإمكانات البشرية</span></div>
+        <div class="program-desc">• الكوادر التعليمية والإدارية بالمدرسة<br>• الشراكة مع المتدربين والخوات في تطوير البيئة المدرسية</div>
+      </div>
+      <div class="program-card">
+        <div class="program-header"><span class="program-name">🏗️ الإمكانات المادية</span></div>
+        <div class="program-desc">• التقنيات التعليمية في الفصول<br>• قاعة مصادر التعلم</div>
+      </div>
+      <div class="program-card">
+        <div class="program-header"><span class="program-name">💰 الإمكانات المالية</span></div>
+        <div class="program-desc">• الموازنة التشغيلية للمدرسة<br>• موارد المقصف المدرسي<br>• الشراكة المجتمعية</div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ===== 2. VISION ===== -->
+<section id="vision" class="section">
+  <div class="section-title">
+    <div class="icon-badge">🌟</div>
+    <div><h2>الرؤية والرسالة والقيم</h2><div class="subtitle">رؤية ورسالة وزارة التعليم والمدرسة</div></div>
+  </div>
+
+  <h3 style="color:var(--primary);margin-bottom:13px;font-size:1rem;">🏛️ رؤية ورسالة وزارة التعليم</h3>
+  <div class="grid grid-2" style="margin-bottom:25px;">
+    <div class="vision-card"><h3>الرؤية</h3><p>تحقيق تعليم شامل للجميع يعزز القيم ويضعنا في صدارة المنافسة العالمية ويمكن الأفراد والمجتمعات من اكتساب مهارات ذات جودة عالية.</p></div>
+    <div class="mission-card"><h3>الرسالة</h3><p>تقديم تعليم ذي جودة عالية بكودار مؤهلة معزز للقيم، متاح للجميع، ضمن بيئة آمنة ومحفزة لإعداد أفراد فاعلين في المجتمع ومساهمين في صناعة وطن رائد عالمياً.</p></div>
+  </div>
+
+  <h3 style="color:var(--primary);margin-bottom:13px;font-size:1rem;">🏫 رؤية ورسالة وقيم المدرسة</h3>
+  <div class="grid grid-2" style="margin-bottom:22px;">
+    <div class="vision-card"><h3>رؤية المدرسة</h3><p>تحقيق تعليم شامل يعزز القيم ويمكن الأفراد والمجتمع من المنافسة عالمياً باكتساب مهارات عالية الجودة.</p></div>
+    <div class="mission-card"><h3>رسالة المدرسة</h3><p>نلتزم بتقديم تعليم عالي الجودة، يتركز على كفاءات مؤهلة وقيم راسخة، في بيئة تعليمية آمنة ومحفزة، تعد أفراداً فاعلين ومؤثرين في مجتمعهم مساهمين في تحقيق تطلعات وطن طموح يتبوأ مكانة عالمية.</p></div>
+  </div>
+
+  <div class="card card-accent">
+    <div class="card-title">💎 قيم المدرسة</div>
+    <div class="grid grid-4">
+      <div class="kpi-metric"><div class="kpi-val">⚖️</div><div class="kpi-lbl">الجودة</div></div>
+      <div class="kpi-metric"><div class="kpi-val">🤝</div><div class="kpi-lbl">الالتزام</div></div>
+      <div class="kpi-metric"><div class="kpi-val">💡</div><div class="kpi-lbl">الإبداع</div></div>
+      <div class="kpi-metric"><div class="kpi-val">👥</div><div class="kpi-lbl">روح الفريق</div></div>
+    </div>
+    <div style="text-align:center;margin-top:13px;">
+      <span class="badge badge-green" style="font-size:0.82rem;padding:7px 18px;">📖 التعلم المستمر</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 3. GOALS ===== -->
+<section id="goals" class="section">
+  <div class="section-title">
+    <div class="icon-badge">🎯</div>
+    <div><h2>الأهداف الاستراتيجية</h2><div class="subtitle">أهداف وزارة التعليم وأهداف المرحلة الابتدائية</div></div>
+  </div>
+
+  <div class="chart-card" style="margin-bottom:20px;">
+    <h4>🏛️ أهداف وزارة التعليم - العشرة الاستراتيجية</h4>
+    <div class="chart-container tall"><canvas id="chartGoals"></canvas></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏛️ قائمة أهداف وزارة التعليم</div>
+    <div class="grid grid-2">
+      <div class="program-desc" style="font-size:0.85rem;line-height:2.1;">
+        1. ضمان وصول التعليم للجميع.<br>
+        2. تطوير بيئة مدرسية آمنة وابتكارية.<br>
+        3. تعزيز القيم والهوية الوطنية.<br>
+        4. تحسين تجربة المستفيدين.<br>
+        5. الاستثمار في الطالب والمدارس الأولى بالرعاية.<br>
+      </div>
+      <div class="program-desc" style="font-size:0.85rem;line-height:2.1;">
+        6. تحسين أداء المدارس وتعزيز شراكتها مع المجتمع.<br>
+        7. رفع كفاءة الإنفاق وتعزيز الاستدامة المالية.<br>
+        8. تطوير كفاءات الموارد البشرية وتعزيز الثقافة المؤسسية.<br>
+        9. الارتقاء بمستوى التجربة الرقمية.<br>
+        10. تعزيز الحوكمة والالتزام وإدارة المخاطر.<br>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎓 أهداف المرحلة الابتدائية</div>
+    <div class="grid grid-2">
+      <div style="display:flex;flex-direction:column;gap:9px;">
+        <div class="occasion-item"><div class="occasion-date">1</div><div class="occasion-name">تعهد العقيدة الصحيحة في نفس الطالبة ورعايتها بتربية إسلامية</div></div>
+        <div class="occasion-item"><div class="occasion-date">2</div><div class="occasion-name">تدريبها على أداء الصلاة وأخذها بآداب السلوك والفضائل</div></div>
+        <div class="occasion-item"><div class="occasion-date">3</div><div class="occasion-name">تنمية المهارات الأساسية المختلفة اللغوية والعددية والحركية</div></div>
+        <div class="occasion-item"><div class="occasion-date">4</div><div class="occasion-name">تزويدها بالقدر المناسب من المعلومات في مختلف الموضوعات</div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:9px;">
+        <div class="occasion-item"><div class="occasion-date">5</div><div class="occasion-name">تعريفها بنعم الله عليها في نفسها وبيئتها</div></div>
+        <div class="occasion-item"><div class="occasion-date">6</div><div class="occasion-name">تربية ذوقها البديعي وتعهد نشاطها الابتكاري</div></div>
+        <div class="occasion-item"><div class="occasion-date">7</div><div class="occasion-name">تنمية وعيها لتدرك ما عليها من واجبات وحقوق</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-box green">
+    <p><strong>غاية التعليم وأهدافه العامة:</strong> تهدف السياسة التعليمية بالمملكة إلى تمكين العقيدة الإسلامية في نفس الطالب وجعلها ضابطة لسلوكه وتصرفاته، وتزويده بالخبرات والمعارف الملائمة لسنه، وتشويقه إلى البحث عن المعرفة، وتنمية قدراته العقلية والمهارات المختلفة، وتربيته على الحياة الاجتماعية الإسلامية.</p>
+  </div>
+</section>
+
+<!-- ===== 4. DATA ===== -->
+<section id="data" class="section">
+  <div class="section-title">
+    <div class="icon-badge">📊</div>
+    <div><h2>بيانات المدرسة</h2><div class="subtitle">بيانات القيادة والطالبات والفصول</div></div>
+  </div>
+
+  <div class="grid grid-2" style="margin-bottom:20px;">
+    <div class="chart-card">
+      <h4>👩‍🎓 توزيع الطالبات (سعوديين / غير سعوديين)</h4>
+      <div class="chart-container"><canvas id="chartNationality"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h4>📚 صعوبات التعلم حسب الصف</h4>
+      <div class="chart-container"><canvas id="chartDifficulties"></canvas></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px;">
+    <div class="card-title">👩‍💼 بيانات مديرة المدرسة</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>الاسم</th><th>المؤهل</th><th>التخصص</th><th>خبرة كمعلمة</th><th>كوكيلة</th><th>كمديرة</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>ثريا عمر مدني</strong></td><td>بكالوريوس</td><td>لغة عربية</td><td>8 سنوات</td><td>6 سنوات</td><td>5 سنوات</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="grid grid-3" style="margin-top:14px;">
+      <div class="kpi-metric"><div class="kpi-val" style="font-size:0.95rem;">0555822665</div><div class="kpi-lbl">رقم الجوال</div></div>
+      <div class="kpi-metric"><div class="kpi-val" style="font-size:0.95rem;">1001109931</div><div class="kpi-lbl">السجل المدني</div></div>
+      <div class="kpi-metric"><div class="kpi-val" style="font-size:0.95rem;">-</div><div class="kpi-lbl">البريد الإلكتروني</div></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px;">
+    <div class="card-title">👩‍🎓 جدول توزيع الطالبات على الصفوف</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>الصف</th><th>الأول</th><th>الثاني</th><th>الثالث</th><th>الرابع</th><th>الخامس</th><th>السادس</th><th>الإجمالي</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>عدد الطالبات</strong></td><td>79</td><td>76</td><td>98</td><td>105</td><td>87</td><td>62</td><td><strong>509</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="margin-top:12px;display:flex;gap:7px;flex-wrap:wrap;">
+      <span class="badge badge-gold">إجمالي صعوبات التعلم: 7</span>
+      <span class="badge badge-blue">خامس: 2</span>
+      <span class="badge badge-blue">رابع: 3</span>
+      <span class="badge badge-blue">ثالث: 2</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏫 بيانات فصول المدرسة والمرافق</div>
+    <div class="grid grid-4">
+      <div class="kpi-metric"><div class="kpi-val">17</div><div class="kpi-lbl">عدد الفصول</div></div>
+      <div class="kpi-metric"><div class="kpi-val">30</div><div class="kpi-lbl">معدل الطالبات/فصل</div></div>
+      <div class="kpi-metric"><div class="kpi-val">1</div><div class="kpi-lbl">مصادر تعلم</div></div>
+      <div class="kpi-metric"><div class="kpi-val">0</div><div class="kpi-lbl">مكتبة</div></div>
+      <div class="kpi-metric"><div class="kpi-val">2</div><div class="kpi-lbl">غرفة معلمات</div></div>
+      <div class="kpi-metric"><div class="kpi-val">1</div><div class="kpi-lbl">عيادة مدرسية</div></div>
+      <div class="kpi-metric"><div class="kpi-val">3</div><div class="kpi-lbl">غرف إدارية</div></div>
+      <div class="kpi-metric"><div class="kpi-val">1</div><div class="kpi-lbl">مقصف مدرسي</div></div>
+      <div class="kpi-metric"><div class="kpi-val">1</div><div class="kpi-lbl">معمل علوم</div></div>
+      <div class="kpi-metric"><div class="kpi-val">0</div><div class="kpi-lbl">معمل حاسب</div></div>
+      <div class="kpi-metric"><div class="kpi-val">0</div><div class="kpi-lbl">مرافق رياضية</div></div>
+      <div class="kpi-metric"><div class="kpi-val">0</div><div class="kpi-lbl">مصلى</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 5. TEAM ===== -->
+<section id="team" class="section">
+  <div class="section-title">
+    <div class="icon-badge">👥</div>
+    <div><h2>لجنة التميز بالمدرسة</h2><div class="subtitle">أعضاء الفريق وأدوارهم</div></div>
+  </div>
+
+  <div class="grid grid-2" style="margin-bottom:20px;">
+    <div class="program-card"><div class="program-header"><span class="program-name">1. ثريا عمر مدني</span><span class="badge badge-gold">رئيس الفريق</span></div><div class="program-desc">مديرة المدرسة - توزيع مهام تشخيص واقع المدرسة والإشراف على إعداد الخطة التشغيلية.</div></div>
+    <div class="program-card"><div class="program-header"><span class="program-name">2. شيماء حامد الحربي</span><span class="badge badge-blue">نائب الرئيس</span></div><div class="program-desc">وكيلة الشؤون التعليمية والمدرسية - رصد متطلبات الكوادر التعليمية والإدارية والبيئة المدرسية.</div></div>
+    <div class="program-card"><div class="program-header"><span class="program-name">3. زينب اللبان</span><span class="badge badge-green">عضو</span></div><div class="program-desc">وكيلة شؤون الطلابية - رصد متطلبات المتعلمين واحتياجاتهم.</div></div>
+    <div class="program-card"><div class="program-header"><span class="program-name">4. عزيزة القلماني</span><span class="badge badge-green">مقرر</span></div><div class="program-desc">رائدة النشاط - رصد متطلبات المدرسة من برامج وأنشطة.</div></div>
+    <div class="program-card"><div class="program-header"><span class="program-name">5. جميلة القلماني</span><span class="badge badge-green">عضو</span></div><div class="program-desc">الموجهة الطلابية - رصد متطلبات المتعلمين وأولياء أمورهم.</div></div>
+    <div class="program-card"><div class="program-header"><span class="program-name">6. زكية اللحياني</span><span class="badge badge-green">عضو</span></div><div class="program-desc">معلمة - الوقوف على احتياج المعلمات من خلال الزيارات الصفية.</div></div>
+    <div class="program-card"><div class="program-header"><span class="program-name">7. ابتسام أبو حميد</span><span class="badge badge-green">عضو</span></div><div class="program-desc">معلمة - تحليل نتائج التحصيل الدراسي وبناء إجراءات تحسين.</div></div>
+    <div class="program-card"><div class="program-header"><span class="program-name">8. عزيز الحارثي</span><span class="badge badge-green">عضو</span></div><div class="program-desc">معلمة - تحليل نتائج التحصيل الدراسي وبناء إجراءات تحسين.</div></div>
+    <div class="program-card"><div class="program-header"><span class="program-name">9. أسماء الرويوي</span><span class="badge badge-green">عضو</span></div><div class="program-desc">معلمة - متابعة تنفيذ نواتج التعلم المستهدفة.</div></div>
+    <div class="program-card"><div class="program-header"><span class="program-name">10. مريم الزبيدي</span><span class="badge badge-green">عضو</span></div><div class="program-desc">معلمة - متابعة تنفيذ نواتج التعلم المستهدفة.</div></div>
+    <div class="program-card"><div class="program-header"><span class="program-name">11. ندى الزهراني</span><span class="badge badge-green">عضو</span></div><div class="program-desc">معلمة - تهيئة بيئة تعليمية آمنة وجاذبة.</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📅 جدول تشخيص الواقع المدرسي</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>التاريخ</th><th>المهمة</th><th>الزمن</th><th>العضو المكلف</th></tr></thead>
+        <tbody>
+          <tr><td>الأحد 1447/3/1</td><td>اجتماع أعضاء اللجنة</td><td>7 ص</td><td>مديرة المدرسة</td></tr>
+          <tr><td>الأحد 1447/3/8</td><td>تحليل الوثائق والملفات والسجلات</td><td>7 ص</td><td>فريق التميز</td></tr>
+          <tr><td>الأحد 1447/3/15</td><td>ملاحظة المبنى المدرسي والتجهيزات</td><td>7 ص</td><td>-</td></tr>
+          <tr><td>الأحد 1447/3/22</td><td>المقابلات مع الكوادر التعليمية والإدارية</td><td>7 ص</td><td>فريق التميز</td></tr>
+          <tr><td>الأحد 1447/3/29</td><td>مقابلة المتعلمين</td><td>7 ص</td><td>التوجيه الطلابي</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 6. SWOT ===== -->
+<section id="swot" class="section">
+  <div class="section-title">
+    <div class="icon-badge">🔍</div>
+    <div><h2>تحليل واقع المدرسة - SWOT</h2><div class="subtitle">نقاط القوة والضعف والفرص والتهديدات</div></div>
+  </div>
+
+  <div class="swot-grid">
+    <div class="swot-item swot-strengths">
+      <h3><span class="emoji">💪</span> نقاط القوة</h3>
+      <ul>
+        <li>توفر المدرسة فرص متكافئة للتعلم بمن فيهم ذو الإعاقة والموهوبين</li>
+        <li>تنوع المدرسة استراتيجيات التدريس</li>
+        <li>وجود معلمات حاصلات على جوائز في مشاركات خارجية</li>
+        <li>تفعيل مبادرات تنمي المهارات العددية والقرائية</li>
+        <li>تفعيل برامج تشجع على تقوية روابط العاطفية والاجتماعية</li>
+        <li>وجود معلمات حاصلات على شهادات عليا وتخصصية</li>
+        <li>يظهر الطالبات اتجاهات إيجابية نحو الاعتزاز بالوطن</li>
+        <li>موقع المدرسة المتميز</li>
+      </ul>
+    </div>
+    <div class="swot-item swot-weaknesses">
+      <h3><span class="emoji">⚠️</span> نقاط الضعف</h3>
+      <ul>
+        <li>عدم تجهيز الفصول الدراسية بمصادر التعليم الإلكتروني</li>
+        <li>اشتراك الفصول المدرسية مع المدرسة المسائية</li>
+        <li>عدم توفر صالة رياضية تدعم الأنشطة الرياضية</li>
+      </ul>
+    </div>
+    <div class="swot-item swot-opportunities">
+      <h3><span class="emoji">🌱</span> الفرص</h3>
+      <ul>
+        <li>وجود برامج نوعية في القيم (المواطنة - التسامح - السلوك الإيجابي)</li>
+        <li>استغلال المساحات الخارجية للمبنى لإنشاء مرافق مساندة</li>
+        <li>مهن بعض أولياء الأمور المتنوعة التي تدعم المدرسة</li>
+        <li>تفعيل الشراكة المجتمعية (المجتمع المدرسي والمحلي)</li>
+      </ul>
+    </div>
+    <div class="swot-item swot-threats">
+      <h3><span class="emoji">🚨</span> التهديدات</h3>
+      <ul>
+        <li>وجود اعداد كبيرة جداً من الطالبات في البيئة الصفية</li>
+        <li>وجود نسبة كبيرة من الجاليات</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 7. KPIs ===== -->
+<section id="kpis" class="section">
+  <div class="section-title">
+    <div class="icon-badge">📈</div>
+    <div><h2>مؤشرات الأداء</h2><div class="subtitle">الواقع الحالي مقابل الطموح المستهدف</div></div>
+  </div>
+
+  <div class="grid grid-2" style="margin-bottom:20px;">
+    <div class="chart-card">
+      <h4>📊 مقارنة الواقع بالطموح (9 مؤشرات رئيسية)</h4>
+      <div class="chart-container tall"><canvas id="chartKPI"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h4>🎯 رادار الأداء - المجالات الرئيسية</h4>
+      <div class="chart-container tall"><canvas id="chartRadar"></canvas></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📋 مؤشرات الأداء التفصيلية (الواقع vs الطموح)</div>
+    <div class="progress-item"><div class="progress-label"><span class="name">1. تنوع استراتيجيات التدريس لتلبية احتياجات المتعلمين</span><span class="values"><span class="current">الواقع: 85%</span><span class="target">الطموح: 88%</span></span></div><div class="progress-bar-bg"><div class="progress-bar-fill" data-width="85"></div><div class="progress-target-marker" style="right:12%"></div></div></div>
+    <div class="progress-item"><div class="progress-label"><span class="name">2. تنمية المهارات القرآنية والعددية الأساسية</span><span class="values"><span class="current">89%</span><span class="target">92%</span></span></div><div class="progress-bar-bg"><div class="progress-bar-fill" data-width="89"></div><div class="progress-target-marker" style="right:8%"></div></div></div>
+    <div class="progress-item"><div class="progress-label"><span class="name">3. تنمية المهارات العاطفية والاجتماعية</span><span class="values"><span class="current">89%</span><span class="target">92%</span></span></div><div class="progress-bar-bg"><div class="progress-bar-fill" data-width="89"></div><div class="progress-target-marker" style="right:8%"></div></div></div>
+    <div class="progress-item"><div class="progress-label"><span class="name">4. تعزيز القيم الإسلامية والهوية الوطنية</span><span class="values"><span class="current">84%</span><span class="target">87%</span></span></div><div class="progress-bar-bg"><div class="progress-bar-fill" data-width="84"></div><div class="progress-target-marker" style="right:13%"></div></div></div>
+    <div class="progress-item"><div class="progress-label"><span class="name">5. الالتزام بقيم مهنة التعليم وأخلاقياتها</span><span class="values"><span class="current">88%</span><span class="target">91%</span></span></div><div class="progress-bar-bg"><div class="progress-bar-fill" data-width="88"></div><div class="progress-target-marker" style="right:9%"></div></div></div>
+    <div class="progress-item"><div class="progress-label"><span class="name">6. بناء العلاقات الإيجابية والتعاون في المجتمع المدرسي</span><span class="values"><span class="current">88%</span><span class="target">91%</span></span></div><div class="progress-bar-bg"><div class="progress-bar-fill" data-width="88"></div><div class="progress-target-marker" style="right:9%"></div></div></div>
+    <div class="progress-item"><div class="progress-label"><span class="name">7. مشاركة الأسرة في تعلم أبنائهم</span><span class="values"><span class="current">88%</span><span class="target">91%</span></span></div><div class="progress-bar-bg"><div class="progress-bar-fill" data-width="88"></div><div class="progress-target-marker" style="right:9%"></div></div></div>
+    <div class="progress-item"><div class="progress-label"><span class="name">8. الشراكة المجتمعية لدعم التعلم</span><span class="values"><span class="current">86%</span><span class="target">89%</span></span></div><div class="progress-bar-bg"><div class="progress-bar-fill" data-width="86"></div><div class="progress-target-marker" style="right:11%"></div></div></div>
+    <div class="progress-item"><div class="progress-label"><span class="name">9. مشاركة المتعلمين في الأنشطة المجتمعية والتطوعية</span><span class="values"><span class="current">76%</span><span class="target">79%</span></span></div><div class="progress-bar-bg"><div class="progress-bar-fill" data-width="76"></div><div class="progress-target-marker" style="right:21%"></div></div></div>
+  </div>
+
+  <div class="chart-card" style="margin-bottom:20px;">
+    <h4>📈 نتائج الاختبارات الوطنية (نافس) حسب المادة</h4>
+    <div class="chart-container"><canvas id="chartNafes"></canvas></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎯 مجالات الخطة الأربعة</div>
+    <div class="grid grid-4">
+      <div class="kpi-metric"><div class="kpi-val">🏛️</div><div class="kpi-lbl">الإدارة المدرسية</div></div>
+      <div class="kpi-metric"><div class="kpi-val">📚</div><div class="kpi-lbl">التعليم والتعلم</div></div>
+      <div class="kpi-metric"><div class="kpi-val">📊</div><div class="kpi-lbl">نواتج التعلم</div></div>
+      <div class="kpi-metric"><div class="kpi-val">🏫</div><div class="kpi-lbl">البيئة المدرسية</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 8. PROGRAMS ===== -->
+<section id="programs" class="section">
+  <div class="section-title">
+    <div class="icon-badge">🚀</div>
+    <div><h2>البرامج والمبادرات</h2><div class="subtitle">البرامج المرتبطة بالأهداف الاستراتيجية</div></div>
+  </div>
+
+  <div class="grid grid-2" style="margin-bottom:20px;">
+    <div class="chart-card">
+      <h4>🚀 توزيع البرامج على المجالات</h4>
+      <div class="chart-container"><canvas id="chartPrograms"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h4>📊 نسب إنجاز البرامج الرئيسية</h4>
+      <div class="chart-container"><canvas id="chartProgramsProgress"></canvas></div>
+    </div>
+  </div>
+
+  <div class="sub-tabs">
+    <button class="sub-tab active" data-sub="prog-all">جميع البرامج</button>
+    <button class="sub-tab" data-sub="prog-admin">الإدارة المدرسية</button>
+    <button class="sub-tab" data-sub="prog-teach">التعليم والتعلم</button>
+    <button class="sub-tab" data-sub="prog-outcomes">نواتج التعلم</button>
+    <button class="sub-tab" data-sub="prog-env">البيئة المدرسية</button>
+  </div>
+
+  <div id="prog-all" class="sub-content active">
+    <div class="grid grid-2">
+      <div class="program-card"><div class="program-header"><span class="program-name">برنامج الخطة التشغيلية (رؤية - إنجاز - استدامة)</span><span class="badge badge-blue">الإدارة المدرسية</span></div><div class="program-desc">بناء خطة المدرسة لضمان الجودة في بيئة العمل - تعزيز الحوكمة والالتزام.</div><div class="program-meta"><span>👥 35 منسوبة</span><span>📊 76%</span><span>🎯 2-9</span></div></div>
+      <div class="program-card"><div class="program-header"><span class="program-name">الرخصة المهنية</span><span class="badge badge-blue">الإدارة المدرسية</span></div><div class="program-desc">تشجيع منسوبات المدرسة للحصول على الرخصة المهنية.</div><div class="program-meta"><span>👥 35 معلمة</span><span>📊 75%</span><span>🎯 2-7</span></div></div>
+      <div class="program-card"><div class="program-header"><span class="program-name">أنامل تصنع وطن</span><span class="badge badge-green">تعزيز القيم</span></div><div class="program-desc">تضمين القيم الإسلامية والوطنية في الممارسات الصفية - ورشة.</div><div class="program-meta"><span>👥 33 طالبة</span><span>📊 50%</span><span>🎯 1-3</span></div></div>
+      <div class="program-card"><div class="program-header"><span class="program-name">هوية وطني بريشتي</span><span class="badge badge-green">تعزيز القيم</span></div><div class="program-desc">إنتاج لوحات فنية معبرة عن الهوية الوطنية.</div><div class="program-meta"><span>👥 300 طالبة</span><span>📊 70%</span><span>🎯 3-3</span></div></div>
+      <div class="program-card"><div class="program-header"><span class="program-name">الذكاء الصناعي في التعليم</span><span class="badge badge-gold">التجربة الرقمية</span></div><div class="program-desc">نحو متعلمة رقمية متمكنة - أنشطة مبتكرة.</div><div class="program-meta"><span>👥 35 معلمة</span><span>📊 76.25%</span><span>🎯 1-8</span></div></div>
+      <div class="program-card"><div class="program-header"><span class="program-name">كنوز الإلكترونية ولآل تقنية تعليمية</span><span class="badge badge-gold">التجربة الرقمية</span></div><div class="program-desc">مجتمع تعلم مبني لأنشطة إلكترونية مبتكرة.</div><div class="program-meta"><span>👥 30 معلمة</span><span>📊 90%</span><span>🎯 2-1</span></div></div>
+      <div class="program-card"><div class="program-header"><span class="program-name">استخدام تطبيق حلول للألعاب الإلكترونية</span><span class="badge badge-gold">التجربة الرقمية</span></div><div class="program-desc">أدوات التعلم الإلكتروني في البيئة الصفية.</div><div class="program-meta"><span>👥 30 معلمة</span><span>📊 90%</span><span>🎯 1-8</span></div></div>
+      <div class="program-card"><div class="program-header"><span class="program-name">علمي رسول الله</span><span class="badge badge-purple">نواتج التعلم</span></div><div class="program-desc">مبادرة علمي رسول الله - أناقة التغليف وفن التقديم.</div><div class="program-meta"><span>👥 300 طالبة</span><span>📊 95%</span><span>🎯 2-3</span></div></div>
+      <div class="program-card"><div class="program-header"><span class="program-name">أناقة التغليف وفن التقديم</span><span class="badge badge-purple">نواتج التعلم</span></div><div class="program-desc">ورش تخدم التعليم الإلكتروني.</div><div class="program-meta"><span>👥 90 طالبة</span><span>📊 90%</span><span>🎯 1-1</span></div></div>
+      <div class="program-card"><div class="program-header"><span class="program-name">برنامج كيفية تفعيل كافنا للمعلم</span><span class="badge badge-purple">نواتج التعلم</span></div><div class="program-desc">عمل بودكاست - ورشة تطبيقية.</div><div class="program-meta"><span>👥 30 معلمة</span><span>📊 90%</span><span>🎯 1-7</span></div></div>
+      <div class="program-card"><div class="program-header"><span class="program-name">دروس تطبيقية</span><span class="badge badge-purple">نواتج التعلم</span></div><div class="program-desc">تنمية مهارات التفكير العليا لدى المتعلمات.</div><div class="program-meta"><span>👥 30 طالبة</span><span>📊 50%</span><span>🎯 4-1</span></div></div>
+      <div class="program-card"><div class="program-header"><span class="program-name">كنوز الإلكترونية</span><span class="badge badge-purple">نواتج التعلم</span></div><div class="program-desc">تطوير مهارات المتعلمات الرقمية.</div><div class="program-meta"><span>👥 200 طالبة</span><span>📊 90%</span><span>🎯 1-8</span></div></div>
+      <div class="program-card"><div class="program-header"><span class="program-name">وعي رقمي.. استخدام آمن</span><span class="badge badge-purple">نواتج التعلم</span></div><div class="program-desc">تنمية مهارات البحث الرقمي لدى الطالبات.</div><div class="program-meta"><span>👥 300 طالبة</span><span>📊 90%</span><span>🎯 3-8</span></div></div>
+      <div class="program-card"><div class="program-header"><span class="program-name">كنزين السطور حيث الحروف المفاتيح</span><span class="badge badge-purple">نواتج التعلم</span></div><div class="program-desc">تحسين التحصيل الدراسي للطالبات.</div><div class="program-meta"><span>👥 200 طالبة</span><span>📊 80%</span><span>🎯 1-5</span></div></div>
+      <div class="program-card"><div class="program-header"><span class="program-name">سفيرات نافس</span><span class="badge badge-purple">نواتج التعلم</span></div><div class="program-desc">تحقيق نتائج متقدمة في الاختبارات الوطنية.</div><div class="program-meta"><span>👥 100 طالبة</span><span>📊 90%</span><span>🎯 1-5</span></div></div>
+      <div class="program-card"><div class="program-header"><span class="program-name">عائلتي تقرأ</span><span class="badge badge-purple">نواتج التعلم</span></div><div class="program-desc">مشاركة الأسرة في تعلم الأبناء.</div><div class="program-meta"><span>👥 200 طالبة</span><span>📊 80%</span><span>🎯 1-5</span></div></div>
+      <div class="program-card"><div class="program-header"><span class="program-name">أنا أنافس</span><span class="badge badge-purple">نواتج التعلم</span></div><div class="program-desc">يحقق الطالبات 90% في اختبار نافس.</div><div class="program-meta"><span>👥 60 طالبة</span><span>📊 90%</span><span>🎯 1-5</span></div></div>
+      <div class="program-card"><div class="program-header"><span class="program-name">عباقرة الرياضيات</span><span class="badge badge-purple">نواتج التعلم</span></div><div class="program-desc">تحسين التحصيل الدراسي في الرياضيات.</div><div class="program-meta"><span>👥 90 طالبة</span><span>📊 85%</span><span>🎯 1-5</span></div></div>
+      <div class="program-card"><div class="program-header"><span class="program-name">بيننا سند</span><span class="badge badge-green">تعزيز القيم</span></div><div class="program-desc">تحسين العلاقات بين الطالبات.</div><div class="program-meta"><span>👥 500 طالبة</span><span>📊 90%</span><span>🎯 2-3</span></div></div>
+      <div class="program-card"><div class="program-header"><span class="program-name">أثر</span><span class="badge badge-green">تعزيز القيم</span></div><div class="program-desc">تعزيز السلوك الإيجابي.</div><div class="program-meta"><span>👥 500 منسوبة</span><span>📊 90%</span><span>🎯 2-3</span></div></div>
+      <div class="program-card"><div class="program-header"><span class="program-name">شراكات مجتمعية نوعية</span><span class="badge badge-gold">الشراكة</span></div><div class="program-desc">توفير الملابس الرياضية - شراكات مستدامة.</div><div class="program-meta"><span>👥 500 منسوبة</span><span>📊 80%</span><span>🎯 1-6</span></div></div>
+      <div class="program-card"><div class="program-header"><span class="program-name">الأمن والسلامة المدرسية</span><span class="badge badge-red">البيئة المدرسية</span></div><div class="program-desc">تطبيق إجراءات الأمن والسلامة بفاعلية.</div><div class="program-meta"><span>👥 500 مستفيدة</span><span>📊 95%</span><span>🎯 1-2</span></div></div>
+      <div class="program-card"><div class="program-header"><span class="program-name">حدث في الفضاء</span><span class="badge badge-red">البيئة المدرسية</span></div><div class="program-desc">معرض لتنمية الميول العلمية.</div><div class="program-meta"><span>👥 60 طالبة</span><span>📊 80%</span><span>🎯 3-1</span></div></div>
+      <div class="program-card"><div class="program-header"><span class="program-name">خطي الجميل</span><span class="badge badge-red">البيئة المدرسية</span></div><div class="program-desc">تحسين مهارة الخط.</div><div class="program-meta"><span>👥 67 طالبة</span><span>📊 80%</span><span>🎯 3-1</span></div></div>
+      <div class="program-card"><div class="program-header"><span class="program-name">جسور الأجيال</span><span class="badge badge-red">البيئة المدرسية</span></div><div class="program-desc">تعزيز التواصل بين الأجيال.</div><div class="program-meta"><span>👥 طالبات</span><span>📊 85%</span><span>🎯 3-1</span></div></div>
+      <div class="program-card"><div class="program-header"><span class="program-name">التاجر الصغير</span><span class="badge badge-red">البيئة المدرسية</span></div><div class="program-desc">تنمية مهارات البيع والشراء والثقافة المالية.</div><div class="program-meta"><span>👥 طالبات</span><span>📊 90%</span><span>🎯 1-1</span></div></div>
+      <div class="program-card"><div class="program-header"><span class="program-name">الكشافة</span><span class="badge badge-red">البيئة المدرسية</span></div><div class="program-desc">تعزيز العمل الجماعي والانضباط.</div><div class="program-meta"><span>👥 طالبات</span><span>📊 90%</span><span>🎯 1-1</span></div></div>
+      <div class="program-card"><div class="program-header"><span class="program-name">لنسعدهم</span><span class="badge badge-red">البيئة المدرسية</span></div><div class="program-desc">مبادرة مجتمعية (زيارة مستشفى الولادة).</div><div class="program-meta"><span>👥 100 طالبة</span><span>📊 90%</span><span>🎯 1-4</span></div></div>
+      <div class="program-card"><div class="program-header"><span class="program-name">ملكة النظام</span><span class="badge badge-red">البيئة المدرسية</span></div><div class="program-desc">مبادرة تنظيمية.</div><div class="program-meta"><span>👥 200 طالبة</span><span>📊 90%</span><span>🎯 1-1</span></div></div>
+    </div>
+  </div>
+
+  <div id="prog-admin" class="sub-content"><div class="grid grid-2">
+    <div class="program-card"><div class="program-header"><span class="program-name">برنامج الخطة التشغيلية</span><span class="badge badge-blue">الإدارة</span></div><div class="program-desc">بناء خطة المدرسة لضمان الجودة.</div></div>
+    <div class="program-card"><div class="program-header"><span class="program-name">الرخصة المهنية</span><span class="badge badge-blue">الإدارة</span></div><div class="program-desc">تشجيع الحصول على الرخصة.</div></div>
+  </div></div>
+
+  <div id="prog-teach" class="sub-content"><div class="grid grid-2">
+    <div class="program-card"><div class="program-header"><span class="program-name">الذكاء الصناعي في التعليم</span><span class="badge badge-gold">التجربة الرقمية</span></div><div class="program-desc">أنشطة مبتكرة لتنمية مهارات التعليم الإلكتروني.</div></div>
+    <div class="program-card"><div class="program-header"><span class="program-name">مجتمع تعلم إلكتروني</span><span class="badge badge-gold">التجربة الرقمية</span></div><div class="program-desc">تحاكي مهارات التفكير العليا.</div></div>
+    <div class="program-card"><div class="program-header"><span class="program-name">الألعاب الإلكترونية التعليمية</span><span class="badge badge-gold">التجربة الرقمية</span></div><div class="program-desc">أدوات التعلم الإلكتروني.</div></div>
+  </div></div>
+
+  <div id="prog-outcomes" class="sub-content"><div class="grid grid-2">
+    <div class="program-card"><div class="program-header"><span class="program-name">التلخيص ببساطة</span><span class="badge badge-purple">نواتج</span></div><div class="program-desc">تحسين مهارات التلخيص.</div></div>
+    <div class="program-card"><div class="program-header"><span class="program-name">كنزين السطور</span><span class="badge badge-purple">نواتج</span></div><div class="program-desc">تحسين التحصيل الدراسي.</div></div>
+    <div class="program-card"><div class="program-header"><span class="program-name">سفيرات نافس</span><span class="badge badge-purple">نواتج</span></div><div class="program-desc">تحقيق نتائج متقدمة في نافس.</div></div>
+    <div class="program-card"><div class="program-header"><span class="program-name">عائلتي تقرأ</span><span class="badge badge-purple">نواتج</span></div><div class="program-desc">مشاركة الأسرة في تعلم الأبناء.</div></div>
+    <div class="program-card"><div class="program-header"><span class="program-name">أنا أنافس</span><span class="badge badge-purple">نواتج</span></div><div class="program-desc">تحقيق 90% في اختبار نافس.</div></div>
+    <div class="program-card"><div class="program-header"><span class="program-name">عباقرة الرياضيات</span><span class="badge badge-purple">نواتج</span></div><div class="program-desc">تحسين التحصيل في الرياضيات.</div></div>
+    <div class="program-card"><div class="program-header"><span class="program-name">رحلة في عالم الأرقام</span><span class="badge badge-purple">نواتج</span></div><div class="program-desc">تحسين مهارات الرياضيات.</div></div>
+    <div class="program-card"><div class="program-header"><span class="program-name">جاهزون للتميز</span><span class="badge badge-purple">نواتج</span></div><div class="program-desc">مبادرة للصف السادس.</div></div>
+    <div class="program-card"><div class="program-header"><span class="program-name">عقول مثمرة</span><span class="badge badge-purple">نواتج</span></div><div class="program-desc">مبادرة للصف السادس.</div></div>
+  </div></div>
+
+  <div id="prog-env" class="sub-content"><div class="grid grid-2">
+    <div class="program-card"><div class="program-header"><span class="program-name">الأمن والسلامة</span><span class="badge badge-red">البيئة</span></div><div class="program-desc">تطبيق إجراءات الأمن والسلامة.</div></div>
+    <div class="program-card"><div class="program-header"><span class="program-name">حدث في الفضاء</span><span class="badge badge-red">البيئة</span></div><div class="program-desc">معرض لتنمية الميول.</div></div>
+    <div class="program-card"><div class="program-header"><span class="program-name">خطي الجميل</span><span class="badge badge-red">البيئة</span></div><div class="program-desc">تحسين الخط.</div></div>
+    <div class="program-card"><div class="program-header"><span class="program-name">أزرع بيدي شجرة</span><span class="badge badge-red">البيئة</span></div><div class="program-desc">مبادرة بيئية.</div></div>
+    <div class="program-card"><div class="program-header"><span class="program-name">جسور الأجيال</span><span class="badge badge-red">البيئة</span></div><div class="program-desc">التواصل بين الأجيال.</div></div>
+    <div class="program-card"><div class="program-header"><span class="program-name">التاجر الصغير</span><span class="badge badge-red">البيئة</span></div><div class="program-desc">مهارات البيع والشراء.</div></div>
+    <div class="program-card"><div class="program-header"><span class="program-name">الكشافة</span><span class="badge badge-red">البيئة</span></div><div class="program-desc">العمل الجماعي والانضباط.</div></div>
+    <div class="program-card"><div class="program-header"><span class="program-name">لنسعدهم</span><span class="badge badge-red">البيئة</span></div><div class="program-desc">مبادرة مجتمعية.</div></div>
+    <div class="program-card"><div class="program-header"><span class="program-name">ملكة النظام</span><span class="badge badge-red">البيئة</span></div><div class="program-desc">مبادرة تنظيمية.</div></div>
+    <div class="program-card"><div class="program-header"><span class="program-name">درس تطبيقي Kahoot</span><span class="badge badge-red">البيئة</span></div><div class="program-desc">درس تفاعلي.</div></div>
+  </div></div>
+</section>
+
+<!-- ===== 9. FOLLOWUP ===== -->
+<section id="followup" class="section">
+  <div class="section-title">
+    <div class="icon-badge">✅</div>
+    <div><h2>متابعة تنفيذ البرامج</h2><div class="subtitle">نسب الإنجاز والمخرجات والمعوقات</div></div>
+  </div>
+
+  <div class="grid grid-3" style="margin-bottom:20px;">
+    <div class="kpi-metric"><div class="kpi-val">30</div><div class="kpi-lbl">إجمالي البرامج</div></div>
+    <div class="kpi-metric"><div class="kpi-val" style="background:linear-gradient(135deg,#2e7d32,#7cb342);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">100%</div><div class="kpi-lbl">نسبة التنفيذ</div></div>
+    <div class="kpi-metric"><div class="kpi-val" style="background:linear-gradient(135deg,#f57f17,#f4b942);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">عالية</div><div class="kpi-lbl">مدى تحقيق الأهداف</div></div>
+  </div>
+
+  <div class="chart-card" style="margin-bottom:20px;">
+    <h4>📊 نسب الإنجاز للبرامج الرئيسية</h4>
+    <div class="chart-container tall"><canvas id="chartFollowup"></canvas></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📋 جدول متابعة برامج الخطة التشغيلية</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>م</th><th>البرنامج</th><th>التنفيذ</th><th>نسبة المنفذ</th><th>أهم المخرجات</th><th>الصعوبات</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>برنامج الخطة التشغيلية</td><td><span class="badge badge-green">تم</span></td><td>100%</td><td>تحسين التحصيل وبيئة التعلم</td><td>صعوبات بسيطة في تنظيم الوقت</td></tr>
+          <tr><td>2</td><td>الرخصة المهنية</td><td><span class="badge badge-green">تم</span></td><td>100%</td><td>تأهيل المعلمات ورفع الكفاءة</td><td>تفاوت في التحصيل</td></tr>
+          <tr><td>3</td><td>الذكاء الاصطناعي</td><td><span class="badge badge-green">تم</span></td><td>100%</td><td>زيادة التفاعل والفهم</td><td>ضعف الالتزام أحياناً</td></tr>
+          <tr><td>4</td><td>الألعاب الإلكترونية</td><td><span class="badge badge-green">تم</span></td><td>100%</td><td>تعلم تفاعلي وتحسين إدارة الحصة</td><td>حاجة بعض المعلمات للدعم</td></tr>
+          <tr><td>5</td><td>كافنا للمعلم</td><td><span class="badge badge-green">تم</span></td><td>100%</td><td>تفعيل التعلم التفاعلي</td><td>حاجة للدعم الفني</td></tr>
+          <tr><td>6</td><td>كنوز الإلكترونية</td><td><span class="badge badge-green">تم</span></td><td>100%</td><td>مصادر رقمية داعمة</td><td>قلة استخدام المصادر</td></tr>
+          <tr><td>7</td><td>علمي رسول الله</td><td><span class="badge badge-green">تم</span></td><td>100%</td><td>تعزيز القيم الإسلامية</td><td>ضعف التفاعل أحياناً</td></tr>
+          <tr><td>8</td><td>بيننا سند</td><td><span class="badge badge-green">تم</span></td><td>100%</td><td>تعزيز الدعم النفسي</td><td>تفاوت المشاركة</td></tr>
+          <tr><td>9</td><td>أثر</td><td><span class="badge badge-green">تم</span></td><td>100%</td><td>قياس الأثر وتحسين الأداء</td><td>صعوبة قياس النتائج</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 10. CALENDAR ===== -->
+<section id="calendar" class="section">
+  <div class="section-title">
+    <div class="icon-badge">📅</div>
+    <div><h2>التقويم الدراسي والمناسبات</h2><div class="subtitle">التقويم الدراسي 1447-1448 هـ والمناسبات</div></div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px;">
+    <div class="card-title">🗓️ التقويم الدراسي 1447-1448 هـ</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>البيان</th><th>الهجري</th><th>الميلادي</th></tr></thead>
+        <tbody>
+          <tr><td>عودة الهيئة الإدارية والمشرفين التربويين</td><td>1447/2/18</td><td>2025/8/12</td></tr>
+          <tr><td>عودة المعلمين والمعلمات للدوام</td><td>1447/2/23</td><td>2025/8/17</td></tr>
+          <tr><td>بداية العام الدراسي</td><td>1447/3/1</td><td>2025/8/24</td></tr>
+          <tr><td>إجازة اليوم الوطني</td><td>1447/4/1</td><td>2025/9/23</td></tr>
+          <tr><td>إجازة الخريف</td><td>1447/4/20</td><td>2025/10/12</td></tr>
+          <tr><td>إجازة منتصف الفصل الأول</td><td>1447/5/30</td><td>2025/11/21</td></tr>
+          <tr><td>بداية اختبارات الفصل الأول</td><td>1447/6/8</td><td>2025/11/29</td></tr>
+          <tr><td>إجازة منتصف العام</td><td>1447/6/20</td><td>2025/12/14</td></tr>
+          <tr><td>بداية الفصل الدراسي الثاني</td><td>1447/7/22</td><td>2026/1/11</td></tr>
+          <tr><td>إجازة يوم التأسيس</td><td>1447/8/2</td><td>2026/2/22</td></tr>
+          <tr><td>بداية إجازة عيد الفطر</td><td>1447/9/17</td><td>2026/3/6</td></tr>
+          <tr><td>الدراسة بعد إجازة عيد الفطر</td><td>1447/10/2</td><td>2026/3/22</td></tr>
+          <tr><td>إجازة عيد الأضحى</td><td>1447/12/3</td><td>2026/5/22</td></tr>
+          <tr><td>بداية اختبارات الفصل الثالث</td><td>1447/12/12</td><td>2026/6/1</td></tr>
+          <tr><td>بداية إجازة نهاية العام</td><td>1448/1/10</td><td>2026/6/25</td></tr>
+          <tr><td>بداية العام الدراسي القادم</td><td>1448/3/10</td><td>2026/8/23</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🌟 المناسبات المحلية والإقليمية والعالمية</div>
+    <div class="grid grid-2">
+      <div>
+        <h4 style="color:var(--primary-light);margin-bottom:10px;font-size:0.87rem;">🇸🇦 المناسبات الوطنية والخليجية</h4>
+        <div class="occasion-item"><div class="occasion-date">23 سبتمبر</div><div class="occasion-name">اليوم الوطني السعودي</div></div>
+        <div class="occasion-item"><div class="occasion-date">20 نوفمبر</div><div class="occasion-name">يوم الطفل العربي</div></div>
+        <div class="occasion-item"><div class="occasion-date">15 يناير</div><div class="occasion-name">يوم الطفل الخليجي</div></div>
+        <div class="occasion-item"><div class="occasion-date">22 فبراير</div><div class="occasion-name">يوم التأسيس</div></div>
+        <div class="occasion-item"><div class="occasion-date">3 مارس</div><div class="occasion-name">اليوم الخليجي للموهبة والإبداع</div></div>
+        <div class="occasion-item"><div class="occasion-date">سبتمبر</div><div class="occasion-name">الاحتفاء بذكرى البيعة</div></div>
+        <div class="occasion-item"><div class="occasion-date">3 مايو</div><div class="occasion-name">اليوم الخليجي لصعوبات التعلم</div></div>
+        <div class="occasion-item"><div class="occasion-date">3 سبتمبر</div><div class="occasion-name">اليوم الخليجي للإعاقة</div></div>
+        <div class="occasion-item"><div class="occasion-date">18 ديسمبر</div><div class="occasion-name">اليوم العالمي للغة العربية</div></div>
+      </div>
+      <div>
+        <h4 style="color:var(--primary-light);margin-bottom:10px;font-size:0.87rem;">🌍 المناسبات الدولية والعالمية</h4>
+        <div class="occasion-item"><div class="occasion-date">4 يناير</div><div class="occasion-name">اليوم العالمي للغة برايل</div></div>
+        <div class="occasion-item"><div class="occasion-date">8 يناير</div><div class="occasion-name">اليوم العربي لمحو الأمية</div></div>
+        <div class="occasion-item"><div class="occasion-date">24 يناير</div><div class="occasion-name">اليوم العالمي للتعليم</div></div>
+        <div class="occasion-item"><div class="occasion-date">4 فبراير</div><div class="occasion-name">اليوم العالمي للسرطان</div></div>
+        <div class="occasion-item"><div class="occasion-date">15 فبراير</div><div class="occasion-name">اليوم العالمي لسرطان الأطفال</div></div>
+        <div class="occasion-item"><div class="occasion-date">1 مارس</div><div class="occasion-name">اليوم العالمي للدفاع المدني</div></div>
+        <div class="occasion-item"><div class="occasion-date">8 مارس</div><div class="occasion-name">اليوم العالمي للمرأة</div></div>
+        <div class="occasion-item"><div class="occasion-date">21 مارس</div><div class="occasion-name">اليوم العالمي لمتلازمة داون</div></div>
+        <div class="occasion-item"><div class="occasion-date">2 أبريل</div><div class="occasion-name">اليوم العالمي للتوحد</div></div>
+        <div class="occasion-item"><div class="occasion-date">7 أبريل</div><div class="occasion-name">يوم الصحة العالمي</div></div>
+        <div class="occasion-item"><div class="occasion-date">23 أبريل</div><div class="occasion-name">اليوم العالمي للكتاب</div></div>
+        <div class="occasion-item"><div class="occasion-date">31 مايو</div><div class="occasion-name">اليوم العالمي لمكافحة التدخين</div></div>
+        <div class="occasion-item"><div class="occasion-date">14 يونيو</div><div class="occasion-name">اليوم العالمي للتبرع بالدم</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 11. STRUCTURE ===== -->
+<section id="structure" class="section">
+  <div class="section-title">
+    <div class="icon-badge">🏛️</div>
+    <div><h2>الهيكل التنظيمي للمدرسة</h2><div class="subtitle">التسلسل الإداري والتنظيمي</div></div>
+  </div>
+
+  <div class="card">
+    <div class="org-chart">
+      <div class="org-top">مدير المدرسة</div>
+      <div class="org-connector"></div>
+      <div class="org-row"><div class="org-box">السكرتير</div></div>
+      <div class="org-connector"></div>
+      <div class="org-row" style="gap:40px;">
+        <div>
+          <div class="org-box leader">وكيل شؤون الطلاب</div>
+          <div class="org-sub">
+            <span class="org-chip">الموجه الطلابي</span>
+            <span class="org-chip">رائد النشاط الطلابي</span>
+            <span class="org-chip">المساعد الإداري (شؤون الطلاب)</span>
+            <span class="org-chip">الموجه الصحي</span>
+            <span class="org-chip">مسجل المعلومات</span>
+          </div>
+        </div>
+        <div>
+          <div class="org-box leader">وكيل الشؤون التعليمية والمدرسية</div>
+          <div class="org-sub">
+            <span class="org-chip">معلمو المواد الدراسية</span>
+            <span class="org-chip">معلم التربية الخاصة</span>
+            <span class="org-chip">مساعد معلم (تربية خاصة)</span>
+            <span class="org-chip">المساعد الإداري (شؤون المعلمات والرواتب)</span>
+            <span class="org-chip">موظفة خدمات</span>
+            <span class="org-chip">معلمو الموهوبين</span>
+            <span class="org-chip">أمين مصادر التعلم</span>
+            <span class="org-chip">محضر مختبر</span>
+            <span class="org-chip">عامل خدمات</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <p><strong>ملاحظات:</strong></p>
+    <p>• موظفة خدمات: عامل بسيط للقيام بأعمال النظافة العامة.</p>
+    <p>• المساعد الإداري (شؤون المعلمات والرواتب) هو من يقوم بأعمال الخدمات الإدارية.</p>
+  </div>
+</section>
+
+<!-- ===== 12. APPROVAL ===== -->
+<section id="approval" class="section">
+  <div class="section-title">
+    <div class="icon-badge">✍️</div>
+    <div><h2>اعتماد الخطة التشغيلية</h2><div class="subtitle">من اللجنة الإدارية بالمدرسة</div></div>
+  </div>
+
+  <div class="card card-accent">
+    <div class="card-title" style="justify-content:center;">لجنة اعتماد الخطة التشغيلية</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>م</th><th>الاسم</th><th>الوظيفة</th><th>التوقيع</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>ثريا مدني</td><td>مديرة المدرسة</td><td>_____________</td></tr>
+          <tr><td>2</td><td>شيماء الحربي</td><td>وكيلة الشؤون التعليمية</td><td>_____________</td></tr>
+          <tr><td>3</td><td>زينب لبان</td><td>وكيلة الشؤون الطلابية</td><td>_____________</td></tr>
+          <tr><td>4</td><td>جميلة اللقماني</td><td>الموجه الطلابية</td><td>_____________</td></tr>
+          <tr><td>5</td><td>عهود الصبحي</td><td>رائدة النشاط</td><td>_____________</td></tr>
+          <tr><td>6</td><td>عزيزة اللقماني</td><td>رائدة النشاط</td><td>_____________</td></tr>
+          <tr><td>7</td><td>فادية المجنوني</td><td>معلمة</td><td>_____________</td></tr>
+          <tr><td>8</td><td>عائشة الأسمري</td><td>مساعد إداري</td><td>_____________</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="text-align:center;margin-top:22px;padding-top:16px;border-top:2px dashed var(--border);">
+      <p style="color:var(--text-light);margin-bottom:5px;">مديرة المدرسة</p>
+      <p style="color:var(--primary);font-weight:700;font-size:1rem;">ثريا مدني</p>
+    </div>
+  </div>
+
+  <div class="info-box gold" style="text-align:center;">
+    <p style="font-weight:700;color:var(--primary);font-size:0.95rem;">📌 تم اعتماد الخطة التشغيلية للعام الدراسي 1447 هـ</p>
+    <p style="color:var(--text-light);margin-top:7px;font-size:0.83rem;">الإدارة العامة للتعليم بمنطقة مكة المكرمة - الابتدائية الرابعة والثلاثون بعد المائة</p>
+  </div>
+</section>
+
+<div class="footer">
+  <strong>الابتدائية الرابعة والثلاثون بعد المائة</strong>
+  <p style="margin-top:5px;">الإدارة العامة للتعليم بمنطقة مكة المكرمة | الخطة التشغيلية 1447 هـ</p>
+</div>
+
+</main>
+
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">▲</button>
+
+<script>
+// ===== CHART.JS DEFAULTS =====
+Chart.defaults.font.family = 'Tajawal, sans-serif';
+Chart.defaults.font.size = 11;
+Chart.defaults.color = '#5a6b73';
+
+const colors = {
+  primary: '#0d4d5c',
+  primaryLight: '#1a6b7f',
+  accent: '#7cb342',
+  accentLight: '#9ccc65',
+  gold: '#f4b942',
+  sky: '#7fb3d3',
+  purple: '#ab47bc',
+  red: '#ef5350',
+  blue: '#42a5f5'
+};
+
+// ===== CHART FUNCTIONS =====
+function createStudentsChart() {
+  const ctx = document.getElementById('chartStudents');
+  if (!ctx || ctx._chart) return; ctx._chart = true;
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['الأول', 'الثاني', 'الثالث', 'الرابع', 'الخامس', 'السادس'],
+      datasets: [{
+        label: 'عدد الطالبات',
+        data: [79, 76, 98, 105, 87, 62],
+        backgroundColor: ['rgba(13,77,92,0.85)','rgba(26,107,127,0.85)','rgba(127,179,211,0.85)','rgba(124,179,66,0.85)','rgba(244,185,66,0.85)','rgba(171,71,188,0.85)'],
+        borderRadius: 10, borderWidth: 0
+      }]
+    },
+    options: { responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { backgroundColor: '#0d4d5c', padding: 12, callbacks: { label: (c) => ` ${c.parsed.y} طالبة` } } },
+      scales: { y: { beginAtZero: true, grid: { color: 'rgba(212,228,236,0.5)' } }, x: { grid: { display: false } } }
+    }
+  });
+}
+
+function createFacilitiesChart() {
+  const ctx = document.getElementById('chartFacilities');
+  if (!ctx || ctx._chart) return; ctx._chart = true;
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['غرف إدارية', 'غرفة معلمات', 'مصادر تعلم', 'عيادة مدرسية', 'مقصف', 'معمل علوم'],
+      datasets: [{ data: [3, 2, 1, 1, 1, 1], backgroundColor: [colors.primary, colors.primaryLight, colors.accent, colors.gold, colors.sky, colors.purple], borderWidth: 3, borderColor: '#fff' }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, cutout: '60%',
+      plugins: { legend: { position: 'bottom', labels: { padding: 10, font: { size: 10.5 }, usePointStyle: true, pointStyle: 'circle' } }, tooltip: { backgroundColor: '#0d4d5c', padding: 12 } }
+    }
+  });
+}
+
+function createNationalityChart() {
+  const ctx = document.getElementById('chartNationality');
+  if (!ctx || ctx._chart) return; ctx._chart = true;
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: { labels: ['سعوديون', 'غير سعوديين'], datasets: [{ data: [203, 306], backgroundColor: [colors.primary, colors.accent], borderWidth: 4, borderColor: '#fff' }] },
+    options: { responsive: true, maintainAspectRatio: false, cutout: '65%',
+      plugins: { legend: { position: 'bottom', labels: { padding: 14, font: { size: 12 }, usePointStyle: true, pointStyle: 'circle' } }, tooltip: { backgroundColor: '#0d4d5c', padding: 12, callbacks: { label: (c) => ` ${c.label}: ${c.parsed} طالبة (${((c.parsed/509)*100).toFixed(1)}%)` } } }
+    }
+  });
+}
+
+function createDifficultiesChart() {
+  const ctx = document.getElementById('chartDifficulties');
+  if (!ctx || ctx._chart) return; ctx._chart = true;
+  new Chart(ctx, {
+    type: 'polarArea',
+    data: { labels: ['الصف الثاني', 'الصف الثالث', 'الصف الرابع', 'الصف الخامس'], datasets: [{ data: [0, 2, 3, 2], backgroundColor: ['rgba(127,179,211,0.7)','rgba(124,179,66,0.7)','rgba(244,185,66,0.7)','rgba(171,71,188,0.7)'], borderWidth: 2, borderColor: '#fff' }] },
+    options: { responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'bottom', labels: { padding: 10, font: { size: 10.5 }, usePointStyle: true, pointStyle: 'circle' } }, tooltip: { backgroundColor: '#0d4d5c', padding: 12 } },
+      scales: { r: { grid: { color: 'rgba(212,228,236,0.5)' }, ticks: { display: false } } }
+    }
+  });
+}
+
+function createGoalsChart() {
+  const ctx = document.getElementById('chartGoals');
+  if (!ctx || ctx._chart) return; ctx._chart = true;
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['ضمان وصول التعليم', 'بيئة آمنة وابتكارية', 'القيم والهوية', 'تجربة المستفيدين', 'الاستثمار في الطالب', 'أداء المدارس', 'كفاءة الإنفاق', 'الموارد البشرية', 'التجربة الرقمية', 'الحوكمة'],
+      datasets: [{ label: 'الأهمية النسبية', data: [95, 92, 88, 85, 90, 87, 82, 89, 86, 84],
+        backgroundColor: ['rgba(13,77,92,0.85)','rgba(13,77,92,0.8)','rgba(26,107,127,0.85)','rgba(26,107,127,0.8)','rgba(124,179,66,0.85)','rgba(124,179,66,0.8)','rgba(244,185,66,0.85)','rgba(127,179,211,0.85)','rgba(171,71,188,0.75)','rgba(239,83,80,0.7)'],
+        borderRadius: 8, borderWidth: 0 }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+      plugins: { legend: { display: false }, tooltip: { backgroundColor: '#0d4d5c', padding: 12 } },
+      scales: { x: { beginAtZero: true, max: 100, grid: { color: 'rgba(212,228,236,0.5)' } }, y: { grid: { display: false }, ticks: { font: { size: 10 } } } }
+    }
+  });
+}
+
+function createKPIChart() {
+  const ctx = document.getElementById('chartKPI');
+  if (!ctx || ctx._chart) return; ctx._chart = true;
+  new Chart(ctx, {
+    type: 'bar',
+    data: { labels: ['1','2','3','4','5','6','7','8','9'],
+      datasets: [
+        { label: 'الواقع الحالي', data: [85, 89, 89, 84, 88, 88, 88, 86, 76], backgroundColor: 'rgba(244,185,66,0.85)', borderRadius: 6 },
+        { label: 'الطموح المستهدف', data: [88, 92, 92, 87, 91, 91, 91, 89, 79], backgroundColor: 'rgba(124,179,66,0.85)', borderRadius: 6 }
+      ]
+    },
+    options: { responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'top', labels: { padding: 12, usePointStyle: true, pointStyle: 'circle' } }, tooltip: { backgroundColor: '#0d4d5c', padding: 12, callbacks: { label: (c) => ` ${c.dataset.label}: ${c.parsed.y}%` } } },
+      scales: { y: { beginAtZero: true, max: 100, grid: { color: 'rgba(212,228,236,0.5)' }, ticks: { callback: v => v + '%' } }, x: { grid: { display: false } } }
+    }
+  });
+}
+
+function createRadarChart() {
+  const ctx = document.getElementById('chartRadar');
+  if (!ctx || ctx._chart) return; ctx._chart = true;
+  new Chart(ctx, {
+    type: 'radar',
+    data: { labels: ['استراتيجيات التدريس', 'المهارات القرآنية', 'المهارات العاطفية', 'القيم الإسلامية', 'قيم المهنة', 'العلاقات الإيجابية', 'مشاركة الأسرة'],
+      datasets: [
+        { label: 'الواقع الحالي', data: [85, 89, 89, 84, 88, 88, 88], backgroundColor: 'rgba(244,185,66,0.2)', borderColor: colors.gold, borderWidth: 2, pointBackgroundColor: colors.gold, pointRadius: 5 },
+        { label: 'الطموح المستهدف', data: [88, 92, 92, 87, 91, 91, 91], backgroundColor: 'rgba(124,179,66,0.2)', borderColor: colors.accent, borderWidth: 2, pointBackgroundColor: colors.accent, pointRadius: 5 }
+      ]
+    },
+    options: { responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'top', labels: { padding: 12, usePointStyle: true, pointStyle: 'circle' } }, tooltip: { backgroundColor: '#0d4d5c', padding: 12 } },
+      scales: { r: { beginAtZero: false, min: 70, max: 100, grid: { color: 'rgba(212,228,236,0.6)' }, angleLines: { color: 'rgba(212,228,236,0.6)' }, pointLabels: { font: { size: 10 } }, ticks: { backdropColor: 'transparent', font: { size: 9 }, stepSize: 10 } } }
+    }
+  });
+}
+
+function createNafesChart() {
+  const ctx = document.getElementById('chartNafes');
+  if (!ctx || ctx._chart) return; ctx._chart = true;
+  new Chart(ctx, {
+    type: 'bar',
+    data: { labels: ['القراءة', 'الرياضيات', 'العلوم'],
+      datasets: [
+        { label: 'الواقع الحالي', data: [83.33, 75.43, 77.77], backgroundColor: 'rgba(244,185,66,0.85)', borderRadius: 8 },
+        { label: 'المستهدف', data: [86.33, 87.43, 80.77], backgroundColor: 'rgba(124,179,66,0.85)', borderRadius: 8 }
+      ]
+    },
+    options: { responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'top', labels: { padding: 12, usePointStyle: true, pointStyle: 'circle' } }, tooltip: { backgroundColor: '#0d4d5c', padding: 12, callbacks: { label: (c) => ` ${c.dataset.label}: ${c.parsed.y}%` } } },
+      scales: { y: { beginAtZero: true, max: 100, grid: { color: 'rgba(212,228,236,0.5)' }, ticks: { callback: v => v + '%' } }, x: { grid: { display: false } } }
+    }
+  });
+}
+
+function createProgramsChart() {
+  const ctx = document.getElementById('chartPrograms');
+  if (!ctx || ctx._chart) return; ctx._chart = true;
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: { labels: ['الإدارة المدرسية', 'التعليم والتعلم', 'نواتج التعلم', 'البيئة المدرسية', 'تعزيز القيم', 'الشراكة'],
+      datasets: [{ data: [3, 4, 10, 10, 4, 1], backgroundColor: [colors.primary, colors.gold, colors.purple, colors.red, colors.accent, colors.sky], borderWidth: 3, borderColor: '#fff' }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, cutout: '58%',
+      plugins: { legend: { position: 'bottom', labels: { padding: 10, font: { size: 10.5 }, usePointStyle: true, pointStyle: 'circle' } }, tooltip: { backgroundColor: '#0d4d5c', padding: 12, callbacks: { label: (c) => ` ${c.label}: ${c.parsed} برنامج` } } }
+    }
+  });
+}
+
+function createProgramsProgressChart() {
+  const ctx = document.getElementById('chartProgramsProgress');
+  if (!ctx || ctx._chart) return; ctx._chart = true;
+  new Chart(ctx, {
+    type: 'bar',
+    data: { labels: ['الخطة التشغيلية', 'الرخصة المهنية', 'الذكاء الاصطناعي', 'الألعاب الإلكترونية', 'كنوز رقمية', 'علمي رسول الله', 'الأمن والسلامة'],
+      datasets: [{ label: 'نسبة الإنجاز', data: [76, 75, 76.25, 90, 90, 95, 95],
+        backgroundColor: ['rgba(13,77,92,0.85)','rgba(26,107,127,0.85)','rgba(127,179,211,0.85)','rgba(244,185,66,0.85)','rgba(124,179,66,0.85)','rgba(171,71,188,0.75)','rgba(239,83,80,0.75)'],
+        borderRadius: 8 }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+      plugins: { legend: { display: false }, tooltip: { backgroundColor: '#0d4d5c', padding: 12, callbacks: { label: (c) => ` ${c.parsed.x}%` } } },
+      scales: { x: { beginAtZero: true, max: 100, grid: { color: 'rgba(212,228,236,0.5)' }, ticks: { callback: v => v + '%' } }, y: { grid: { display: false }, ticks: { font: { size: 10 } } } }
+    }
+  });
+}
+
+function createFollowupChart() {
+  const ctx = document.getElementById('chartFollowup');
+  if (!ctx || ctx._chart) return; ctx._chart = true;
+  new Chart(ctx, {
+    type: 'bar',
+    data: { labels: ['برنامج الخطة', 'الرخصة المهنية', 'الذكاء الاصطناعي', 'الألعاب الإلكترونية', 'كافنا للمعلم', 'كنوز الإلكترونية', 'علمي رسول الله', 'بيننا سند', 'أثر'],
+      datasets: [{ label: 'نسبة الإنجاز', data: [100, 100, 100, 100, 100, 100, 100, 100, 100], backgroundColor: 'rgba(124,179,66,0.85)', borderRadius: 8 }]
+    },
+    options: { responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { backgroundColor: '#0d4d5c', padding: 12, callbacks: { label: (c) => ` ${c.parsed.y}%` } } },
+      scales: { y: { beginAtZero: true, max: 110, grid: { color: 'rgba(212,228,236,0.5)' }, ticks: { callback: v => v + '%' } }, x: { grid: { display: false }, ticks: { font: { size: 9.5 }, maxRotation: 45 } } }
+    }
+  });
+}
+
+// ===== NAVIGATION =====
+document.querySelectorAll('.nav-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    btn.classList.add('active');
+    const section = document.getElementById(btn.dataset.section);
+    if (section) section.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => { animateProgressBars(); animateCounters(); }, 150);
+    if (window.innerWidth <= 768) toggleSidebar();
+  });
+});
+
+// ===== SUB TABS =====
+document.querySelectorAll('.sub-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    const parent = tab.closest('.section');
+    parent.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+    parent.querySelectorAll('.sub-content').forEach(c => c.classList.remove('active'));
+    tab.classList.add('active');
+    const content = document.getElementById(tab.dataset.sub);
+    if (content) content.classList.add('active');
+  });
+});
+
+// ===== PROGRESS BARS =====
+function animateProgressBars() {
+  document.querySelectorAll('.progress-bar-fill').forEach(bar => {
+    const width = bar.dataset.width;
+    if (width) {
+      bar.style.width = '0';
+      setTimeout(() => { bar.style.width = width + '%'; }, 150);
+    }
+  });
+}
+
+// ===== COUNTERS =====
+function animateCounters() {
+  document.querySelectorAll('[data-count]').forEach(el => {
+    const target = parseInt(el.dataset.count);
+    const duration = 1400;
+    const start = performance.now();
+    function update(timestamp) {
+      const elapsed = timestamp - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.floor(target * eased);
+      if (progress < 1) requestAnimationFrame(update);
+      else el.textContent = target;
+    }
+    requestAnimationFrame(update);
+  });
+}
+
+// ===== HERO SCROLL EFFECT =====
+const hero = document.getElementById('hero');
+let ticking = false;
+
+function handleHeroScroll() {
+  const scrollY = window.scrollY;
+  if (scrollY > 60) {
+    hero.classList.add('compact');
+  } else {
+    hero.classList.remove('compact');
+  }
+  ticking = false;
+}
+
+window.addEventListener('scroll', () => {
+  // Hero compact
+  if (!ticking) {
+    requestAnimationFrame(handleHeroScroll);
+    ticking = true;
+  }
+  // Scroll top button
+  const btn = document.getElementById('scrollTop');
+  if (window.scrollY > 400) btn.classList.add('show');
+  else btn.classList.remove('show');
+}, { passive: true });
+
+// ===== SIDEBAR TOGGLE =====
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.querySelector('.overlay').classList.toggle('show');
+}
+
+// ===== INIT =====
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    createStudentsChart();
+    createFacilitiesChart();
+    createNationalityChart();
+    createDifficultiesChart();
+    createGoalsChart();
+    createKPIChart();
+    createRadarChart();
+    createNafesChart();
+    createProgramsChart();
+    createProgramsProgressChart();
+    createFollowupChart();
+  }, 250);
+
+  animateCounters();
+  setTimeout(animateProgressBars, 350);
+});
+</script>
+
+</body>
+</html>
